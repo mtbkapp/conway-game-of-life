@@ -5,17 +5,24 @@ An implementation of Conway's Game of Life
 
 ## Usage
 
-    lein run width height iterations x0 y0 x1 y1 x2 y2 ...
+The program reads input from stdin of the form:
+  0 1 0 0 0
+  1 0 0 1 1
+  1 1 0 0 1
+  0 1 0 0 0
+  1 0 0 0 1
+where 1 is a live cell and 0 is a dead cell. The next generation is printed to
+stdout in the same form.
 
 
-## Example (a glider):
+## Example
 
-    lein run 20 20 50 0 3 1 3 2 3 2 2 1 1
+    lein run < test-input.txt 
 
 
 ## Running Tests
 
-    $ lein test
+    lein test
 
 
 ## License

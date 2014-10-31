@@ -1,34 +1,29 @@
 (ns game-of-life.core-test
   (:require [clojure.test :refer :all]
+            [clojure.java.io :as io]
             [game-of-life.core :refer :all]))
 
 
 (deftest test-blinker
   "Tests to see if a blinker works correctly as illustrated below."
   (testing "Testing a blinker
-           0 1 2 3 4 5 6 
-           -----------------
-                         | 0
-                         | 1 
-             - - -       | 2 
-                         | 3
-                         | 4
-
-           0 1 2 3 4 5 6
-           -----------------
-                         | 0
-               -         | 1
-               -         | 2
-               -         | 3
-                         | 4
-
-           0 1 2 3 4 5 6 
-           -----------------
-                         | 0
-                         | 1 
-             - - -       | 2 
-                         | 3
-                         | 4"
+           0 0 0 0 0
+           0 0 0 0 0
+           0 1 1 1 0
+           0 0 0 0 0
+           0 0 0 0 0
+           
+           0 0 0 0 0
+           0 0 1 0 0
+           0 0 1 0 0
+           0 0 1 0 0
+           0 0 0 0 0
+           
+           0 0 0 0 0
+           0 0 0 0 0
+           0 1 1 1 0
+           0 0 0 0 0
+           0 0 0 0 0"
     (let [horizontal #{[1 2] [2 2] [3 2]}
           vertical #{[2 1] [2 2] [2 3]}]
       (is (= vertical (next-state horizontal [6 6])))
@@ -63,15 +58,15 @@
     (let [bounds [5 5]]
       (is (in-bounds? bounds [3 3]))
       (is (in-bounds? bounds [0 0]))
-      (is (in-bounds? bounds [0 5]))
-      (is (in-bounds? bounds [5 0]))
-      (is (in-bounds? bounds [5 5]))
+      (is (in-bounds? bounds [0 4]))
+      (is (in-bounds? bounds [4 0]))
+      (is (in-bounds? bounds [4 4]))
       (is (not (in-bounds? bounds [-1 0])))
       (is (not (in-bounds? bounds [0 -1])))
       (is (not (in-bounds? bounds [-1 -1])))
-      (is (not (in-bounds? bounds [6 0])))
-      (is (not (in-bounds? bounds [0 6])))
-      (is (not (in-bounds? bounds [6 6])))))
+      (is (not (in-bounds? bounds [5 0])))
+      (is (not (in-bounds? bounds [0 5])))
+      (is (not (in-bounds? bounds [5 5])))))
   (testing "blinker on edge"
     (let [bounds [5 5]
           iter1 (next-state #{[0 0] [1 0] [2 0]} bounds)
@@ -79,6 +74,12 @@
       (is (empty? iter2))
       (every? (partial in-bounds? bounds) iter1))))
 
+(deftest test-read-input
+  (testing "reading test-input.txt"
+    (let [[bounds cells] (read-input (io/reader "test-input.txt"))]
+      (is (= [5 5] bounds))
+      (is (= #{[1 0] [0 1] [3 1] [4 1] [0 2] [1 2] [4 2] [1 3] [0 4] [4 4]} 
+             cells)))))
 
 #_(run-tests *ns*)
 
