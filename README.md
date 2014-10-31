@@ -6,11 +6,13 @@ An implementation of Conway's Game of Life
 ## Usage
 
 The program reads input from stdin of the form:
+<pre>
   0 1 0 0 0
   1 0 0 1 1
   1 1 0 0 1
   0 1 0 0 0
   1 0 0 0 1
+</pre>
 where 1 is a live cell and 0 is a dead cell. The next generation is printed to
 stdout in the same form.
 
